@@ -104,6 +104,9 @@ to go
   color-districts
   update-reporters
   tick
+  if (ticks > 2000) [
+    stop
+  ]
 end
 
 to partisan-count
@@ -181,37 +184,43 @@ ask blocks
 end
 
 to create-initial-districts-square ;; hard coded districts for the subgraph of a 15x15 square.
-  if Virginia? [ask patches with [ (pxcor >= -14 and pxcor <= -7 and pycor >= 13 and pycor <= 14) or
-                     (pxcor >= -14 and pxcor <= -6 and pycor >= 12 and pycor <= 13) or
-                     (pxcor >= -14 and pxcor <= 5 and pycor >= 10 and pycor <= 11) or
-                     (pxcor >= -14 and pxcor <= -11 and pycor >= 8 and pycor <= 9)
-                   ]
-                     [ set district 1 ]
-  ask patches with [ (pxcor >= -7 and pxcor <= 14 and pycor >= 13 and pycor <= 14) or
-                     (pxcor >= -5 and pxcor <= 14 and pycor >= 12 and pycor <= 13)
-                   ]
-                     [ set district 2 ]
-
-  ;ask patches with [ pxcor >= -4 and pxcor <= 4 and pycor >= 6 and pycor <= 14 ] [ set district 2 ]
-  ask patches with [ (pxcor >= 6 and pxcor <= 14 and pycor >= 9 and pycor <= 10) or
-                     (pxcor >= 8 and pxcor <= 14 and pycor >= 0 and pycor <= 9)
-                   ] [ set district 3 ]
-  ask patches with [ (pxcor >= -14 and pxcor <= -10 and pycor >= -2 and pycor <= 6) or
-                     (pxcor >= -11 and pxcor <= -10 and pycor >= 8 and pycor <= 9) or
-                     (pxcor >= -14 and pxcor <= -12 and pycor >= -6 and pycor <= -2)
-                   ]
-                   [ set district 4 ]
-  ask patches with [ pxcor >= -4 and pxcor <= 4 and pycor >= -6 and pycor <= 0 ] [ set district 5 ]
-  ask patches with [ (pxcor >= 6 and pxcor <= 14 and pycor >= -6 and pycor <= 0) or
-                     (pxcor >= 6 and pxcor <= 7 and pycor >= 1 and pycor <= 3) or (pxcor >= 6 and pxcor <= 8 and pycor >= -10 and pycor <= -8)]
-                   [ set district 6 ]
-  ask patches with [ (pxcor >= -14 and pxcor <= -6 and pycor >= -14 and pycor <= -10) or (pxcor >= -14 and pxcor <= -8 and pycor >= -10 and pycor <= -8)] [ set district 7 ]
-  ask patches with [ pxcor >= -4 and pxcor <= 4 and pycor >= -14 and pycor <= -8 ] [ set district 8 ]
-  ask patches with [ (pxcor >= 6 and pxcor <= 14 and pycor >= -14 and pycor <= -10) or (pxcor >= 8 and pxcor <= 14 and pycor >= -10 and pycor <= -8)] [ set district 9 ]
-  ask patches with [ (pxcor >= -8 and pxcor <= 4 and pycor >= 2 and pycor <= 3) or (pxcor >= -8 and pxcor <= -4 and pycor >= 3 and pycor <= 4)
-                    or (pxcor >= -8 and pxcor <= -6 and pycor >= -2 and pycor <= 2) or (pxcor >= -10 and pxcor <= -6 and pycor >= -6 and pycor <= -2)
-                    or (pxcor >= -7 and pxcor <= -6 and pycor >= -8 and pycor <= -6)] [ set district 10 ]
-  ask patches with [ (pxcor >= -8 and pxcor <= 6 and pycor >= 6 and pycor <= 8) or (pxcor >= -2 and pxcor <= 6 and pycor >= 4 and pycor <= 6) ] [ set district 11 ]]
+  if Virginia? [
+    ask patches with [ (pxcor >= -14 and pxcor <= -7 and pycor >= 13 and pycor <= 14) or
+                       (pxcor >= -14 and pxcor <= -6 and pycor >= 12 and pycor <= 13) or
+                       (pxcor >= -14 and pxcor <= 5 and pycor >= 10 and pycor <= 11) or
+                       (pxcor >= -14 and pxcor <= -11 and pycor >= 8 and pycor <= 9)
+                     ] [ set district 1 ]
+    ask patches with [ (pxcor >= -7 and pxcor <= 14 and pycor >= 13 and pycor <= 14) or
+                       (pxcor >= -5 and pxcor <= 14 and pycor >= 12 and pycor <= 13)
+                     ] [ set district 2 ]
+    ask patches with [ (pxcor >= 6 and pxcor <= 14 and pycor >= 9 and pycor <= 10) or
+                       (pxcor >= 8 and pxcor <= 14 and pycor >= 0 and pycor <= 9)
+                     ] [ set district 3 ]
+    ask patches with [ (pxcor >= -14 and pxcor <= -10 and pycor >= -2 and pycor <= 6) or
+                       (pxcor >= -11 and pxcor <= -10 and pycor >= 8 and pycor <= 9) or
+                       (pxcor >= -14 and pxcor <= -12 and pycor >= -6 and pycor <= -2)
+                     ] [ set district 4 ]
+    ask patches with [ pxcor >= -4 and pxcor <= 4 and pycor >= -6 and pycor <= 0 ] [ set district 5 ]
+    ask patches with [ (pxcor >= 6 and pxcor <= 14 and pycor >= -6 and pycor <= 0) or
+                       (pxcor >= 6 and pxcor <= 7 and pycor >= 1 and pycor <= 3) or
+                       (pxcor >= 6 and pxcor <= 8 and pycor >= -10 and pycor <= -8)
+                     ] [ set district 6 ]
+    ask patches with [ (pxcor >= -14 and pxcor <= -6 and pycor >= -14 and pycor <= -10) or
+                       (pxcor >= -14 and pxcor <= -8 and pycor >= -10 and pycor <= -8)
+                     ] [ set district 7 ]
+    ask patches with [ pxcor >= -4 and pxcor <= 4 and pycor >= -14 and pycor <= -8 ] [ set district 8 ]
+    ask patches with [ (pxcor >= 6 and pxcor <= 14 and pycor >= -14 and pycor <= -10) or
+                       (pxcor >= 8 and pxcor <= 14 and pycor >= -10 and pycor <= -8)
+                     ] [ set district 9 ]
+    ask patches with [ (pxcor >= -8 and pxcor <= 4 and pycor >= 2 and pycor <= 3) or
+                       (pxcor >= -8 and pxcor <= -4 and pycor >= 3 and pycor <= 4) or
+                       (pxcor >= -8 and pxcor <= -6 and pycor >= -2 and pycor <= 2) or
+                       (pxcor >= -10 and pxcor <= -6 and pycor >= -6 and pycor <= -2) or
+                       (pxcor >= -7 and pxcor <= -6 and pycor >= -8 and pycor <= -6)
+                     ] [ set district 10 ]
+    ask patches with [ (pxcor >= -8 and pxcor <= 6 and pycor >= 6 and pycor <= 8) or
+                       (pxcor >= -2 and pxcor <= 6 and pycor >= 4 and pycor <= 6)
+                     ] [ set district 11 ]]
   if (district-count = 25) [
     ask patches with [ pxcor >= -14 and pxcor <= -10 and pycor >= 10 and pycor <= 14 ] [ set district 1 ]
     ask patches with [ pxcor >= -9 and pxcor <= -4 and pycor >= 10 and pycor <= 14 ] [ set district 2 ]
@@ -289,8 +298,10 @@ to color-districts ;; color to update districts and edges.
     ask patches with [ district = 7 ] [ set pcolor brown ]
     ask patches with [ district = 8 ] [ set pcolor gray ]
     ask patches with [ district = 9 ] [ set pcolor turquoise ]
-  if (district-count = 11) [ask patches with [ district = 10 ] [ set pcolor white ]
-  ask patches with [ district = 11 ] [ set pcolor cyan ]]
+    if (district-count = 11) [
+      ask patches with [ district = 10 ] [ set pcolor white ]
+      ask patches with [ district = 11 ] [ set pcolor cyan ]
+    ]
     if (district-count = 25) [
       ask patches with [ district = 10 ] [ set pcolor yellow ]
       ask patches with [ district = 11 ] [ set pcolor magenta ]
@@ -308,7 +319,7 @@ to color-districts ;; color to update districts and edges.
       ask patches with [ district = 23 ] [ set pcolor orange ]
       ask patches with [ district = 24 ] [ set pcolor violet ]
       ask patches with [ district = 25 ] [ set pcolor magenta ]
-  ]
+    ]
 end
 
 to update-reporters ;; update our per-tick measures and plots
@@ -893,7 +904,7 @@ SWITCH
 560
 Virginia?
 Virginia?
-0
+1
 1
 -1000
 
@@ -905,7 +916,7 @@ CHOOSER
 number-of-districts
 number-of-districts
 9 25
-1
+0
 
 @#$#@#$#@
 ## Version Information
@@ -1308,6 +1319,37 @@ NetLogo 6.2.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="experiment" repetitions="10" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <metric>blue-win-prob</metric>
+    <enumeratedValueSet variable="compactness-leniency">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="uncertainty-threshold">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="number-of-districts">
+      <value value="25"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="population-similarity-leniency">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="intrinsic-moderation">
+      <value value="0.2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Virginia?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="partisan-score-odds">
+      <value value="0.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="compactness-measure">
+      <value value="&quot;perimeter-area ratio&quot;"/>
+    </enumeratedValueSet>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default
