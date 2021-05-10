@@ -1,4 +1,4 @@
-# CDS_201_Project
+# CDS 201 Project
 ## Modeling Virginia Voting Districts
 
 #### Luke Palmieri, Gowri Prathap
